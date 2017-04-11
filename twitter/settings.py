@@ -1,4 +1,5 @@
 import os
+import tweepy
 
 #Variables that contains the user credentials to access Twitter API
 access_token = os.environ.get('TWITTER_ACCESS_KEY')
