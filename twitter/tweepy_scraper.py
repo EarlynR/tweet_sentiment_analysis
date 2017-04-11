@@ -4,9 +4,6 @@ import settings
 from settings import api
 from app import db
 
-# TODO: Create local db & settings module
-# db = dataset.connect(settings.connection_string)
-
 
 class TwitterScraper(StreamListener):
 
@@ -14,7 +11,7 @@ class TwitterScraper(StreamListener):
         if status.retweeted:
             return
             
-        user_name= status.user.screen_name
+        user_name = status.user.screen_name
         users_loc = status.user.location
         tweet_coords = status.coordinates
         text = status.text
