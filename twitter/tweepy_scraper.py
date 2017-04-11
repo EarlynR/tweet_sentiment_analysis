@@ -25,8 +25,6 @@ class TwitterScraper(StreamListener):
         # TODO: Implement get_score
         # lead_score = get_score(text)
 
-        #Getting ready to put my inputs into a table
-        # TODO: Implement db
         table = db[settings.table_name]
 
         table_fields = {
