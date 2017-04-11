@@ -1,12 +1,13 @@
 import tweepy
+import sqlalchemy
 
-db = dataset.connect(settings.connection_string)
+# TODO: Create local db & settings module
+# db = dataset.connect(settings.connection_string)
+
 
 class StreamListener(tweepy.StreamListener):
 
     def on_status(self, status):
-                
-                
         if status.retweeted:
             return
             
@@ -18,23 +19,24 @@ class StreamListener(tweepy.StreamListener):
         symbols_in_text = list(status.entities.hastags.symbols.text)
         hastags_in_text = list(status.entities.hastags.text)
         tweet_created_at = status.created_at
-        lead_score = get_score(text)
+
+        # TODO: Implement get_score
+        # lead_score = get_score(text)
 
         #Getting ready to put my inputs into a table
-        table = db[settings.table_name]
-        try:
-            table.insert(dict(
-                user_name=user_name
-                user_location=users_loc,
-                tweet_coordinates=tweets_coords,
-                text=text,
-                symbols_in_text = symbols_in_text,
-                hastags_in_text = hastags_in_text,
-                tweet_created_at = tweet_created_at,
-                lead_score = sent.lead_score,
-            ))
-        except ProgrammingError as err:
-            print err
+        # TODO: Implement db
+        # table = db[settings.table_name]
+
+        # table.insert(dict(
+        #     user_name=user_name
+        #     user_location=users_loc,
+        #     tweet_coordinates=tweets_coords,
+        #     text=text,
+        #     symbols_in_text = symbols_in_text,
+        #     hastags_in_text = hastags_in_text,
+        #     tweet_created_at = tweet_created_at,
+        #     lead_score = sent.lead_score,
+        # ))
 
     def on_error(self, status_code):
         if status_code == 420:
