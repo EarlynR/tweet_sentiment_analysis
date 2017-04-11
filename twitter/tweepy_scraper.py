@@ -44,11 +44,11 @@ class StreamListener(tweepy.StreamListener):
             return False
 
 #Opening a connection to the Twitter api with proper keys. 
-auth = tweepy.OAuthHandler(settings.consumer_key, settings.consumer_secret)
-auth.set_access_token(settings.access_token, settings.access_token_secret)
+# auth = tweepy.OAuthHandler(settings.consumer_key, settings.consumer_secret)
+# auth.set_access_token(settings.access_token, settings.access_token_secret)
 api = tweepy.API(auth)
 
 #Start streaming the data.
 stream_listener = StreamListener()
 stream = tweepy.Stream(auth=api.auth, listener=stream_listener)
-stream.filter(languages= ['en'], filter_level = ['none'])
+stream.filter(languages=['en'], filter_level=['none'])
