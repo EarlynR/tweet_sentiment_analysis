@@ -8,7 +8,7 @@ from app import db
 # db = dataset.connect(settings.connection_string)
 
 
-class StreamListener(tweepy.StreamListener):
+class TwitterScraper(StreamListener):
 
     def on_status(self, status):
         if status.retweeted:
