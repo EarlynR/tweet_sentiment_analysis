@@ -1,8 +1,4 @@
-import settings
 import tweepy
-import dataset
-from sqlalchemy.exc import ProgrammingError
-import json
 
 db = dataset.connect(settings.connection_string)
 
