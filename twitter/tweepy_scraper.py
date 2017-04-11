@@ -16,11 +16,11 @@ class StreamListener(tweepy.StreamListener):
             
         user_name= status.user.screen_name
         users_loc = status.user.location
-        tweets_coords = status.coordinates
+        tweet_coords = status.coordinates
         text = status.text
         symbols_in_text = list(status.entities.hastags.symbols.text)
-        hastags_in_text = list(status.entities.hastags.text)
-        tweet_created_at = status.created_at
+        hashtags_in_text = list(status.entities.hastags.text)
+        created_date = status.created_at
 
         # TODO: Implement get_score
         # lead_score = get_score(text)
@@ -29,16 +29,16 @@ class StreamListener(tweepy.StreamListener):
         # TODO: Implement db
         table = db[settings.table_name]
 
-        table.insert(dict(
-            user_name=user_name
-            user_location=users_loc,
-            tweet_coordinates=tweets_coords,
-            text=text,
-            symbols_in_text = symbols_in_text,
-            hastags_in_text = hastags_in_text,
-            tweet_created_at = tweet_created_at,
-            # lead_score = sent.lead_score,
-        ))
+        table_fields = {
+            "user_location": users_loc,
+            "tweet_coordinates": tweet_coords,
+            "text": text,
+            "symbols_in_text": symbols_in_text,
+            "hashtags": hashtags_in_text,
+            "created_date": created_date,
+        }
+
+        table.insert(table_fields)
 
     def on_error(self, status_code):
         if status_code == 420:
