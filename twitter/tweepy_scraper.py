@@ -47,11 +47,12 @@ class TwitterScraper(StreamListener):
 # stream.filter(languages=['en'], filter_level=['none'])
 
 
-def add_user(**kwargs):
+def add_user(data):
     """
     Inserts the given data into a table.
     :param table_name: Name of the table to be updated
     :param data: Data dictionary of columns/values
     """
-    user = TwitterUser()
-    db.session.add()
+    user = TwitterUser(user_name=data['user_name'], location=data['location'])
+    db.session.add(user)
+    db.session.commit()
