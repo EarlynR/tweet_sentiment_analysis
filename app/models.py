@@ -10,7 +10,7 @@ class TwitterUser(db.Model):
 
 class Tweet(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('twitteruser.id'))
+    user_id = db.Column(db.Integer, db.ForeignKey(twitteruser.id))
     body = db.Column(db.String(140))
 
     # TODO: Verify data types for these columns
