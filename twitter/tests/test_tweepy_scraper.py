@@ -34,22 +34,27 @@ class TestTweepyScraper(TestCase):
         self.assertEqual(test_user.user_name, data['user_name'])
         self.assertEqual(test_user.location, data['location'])
 
-    # def test_add_tweet(self):
-    #     data = {
-    #         "user_name": "@TestlyTestaverde",
-    #         "location": "Testfordshire Abbey",
-    #         "text": "lol this is like totally a tweet and stuff lol",
-    #         "tweet_coordinates": "123.456, 789.000",
-    #         "symbols_in_text": "!@#$%",
-    #         "hashtags": "loltwitter",
-    #         "created_date": datetime.datetime.now(),
-    #     }
-    #
-    #     tweepy_scraper.add_user(data)
-    #     test_user = TwitterUser.query.filter_by(user_name='@TestlyTestaverde').first()
-    #     self.assertIsNone(Tweet.query.filter_by(user_id=test_user.id).first())
-    #
-    #     tweepy_scraper.add_tweet(data)
-    #     Tweet.query.filter_by(user_id=test_user.id).first()
-    #
-    #     db.session.add()
+    def test_add_tweet(self):
+        data = {
+            "user_name": "@TestlyTestaverde",
+            "location": "Testfordshire Abbey",
+            "text": "lol this is like totally a tweet and stuff lol",
+            "tweet_coordinates": "123.456, 789.000",
+            "symbols_in_text": "!@#$%",
+            "hashtags": "loltwitter",
+            "created_date": datetime.datetime.now(),
+        }
+
+        tweepy_scraper.add_user(data)
+        test_user = TwitterUser.query.filter_by(user_name='@TestlyTestaverde').first()
+        self.assertIsNone(Tweet.query.filter_by(user_id=test_user.id).first())
+
+        tweepy_scraper.add_tweet(data)
+        print test_user.id
+        test_tweet = Tweet.query.filter_by(user_id=test_user.id).first()
+
+        self.assertEqual(test_tweet.body, data['text'])
+        self.assertEqual(test_tweet.coordinates, data['tweet_coordinates'])
+        self.assertEqual(test_tweet.symbols, data['symbols_in_text'])
+        self.assertEqual(test_tweet.hashtags, data['hashtags'])
+        self.assertEqual(test_tweet.created_date, data['created_date'])
