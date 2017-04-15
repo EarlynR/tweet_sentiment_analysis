@@ -26,15 +26,12 @@ class TestTweepyScraper(TestCase):
         }
 
         test_user = TwitterUser(user_name=data['user_name'])
-        print TwitterUser.query.all()
+        self.assertIsNone(TwitterUser.query.filter_by(user_name='@TestUser').first())
 
         # tweepy_scraper.add_user(data)
         db.session.add(test_user)
         db.session.commit()
 
-        print TwitterUser.query.all()
-        print TwitterUser.query.first().user_name
-
-        assert False
+        self.assertEqual(test_user, TwitterUser.query.filter_by(user_name='@TestUser').first())
 
 
