@@ -70,7 +70,10 @@ def add_tweet(data):
     Adds tweet to Tweets table
     :param data: tweet_fields from twitter stream listener
     """
+    user_id = TwitterUser.query.filter_by(user_name=data['user_name']).first().id
+
     tweet = Tweet(
+        user_id=user_id,
         body=data['text'],
         coordinates=data['tweet_coordinates'],
         symbols=data['symbols_in_text'],
