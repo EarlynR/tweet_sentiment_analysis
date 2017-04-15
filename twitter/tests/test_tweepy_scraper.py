@@ -1,4 +1,5 @@
 import os
+import datetime
 from unittest import TestCase
 
 from app import app, db
@@ -22,14 +23,33 @@ class TestTweepyScraper(TestCase):
     def test_add_user(self):
         data = {
             "user_name": "@TestUser",
-            "location": "test_coords"
+            "location": "test_coords",
         }
 
-        test_user = TwitterUser(user_name=data['user_name'])
         self.assertIsNone(TwitterUser.query.filter_by(user_name='@TestUser').first())
 
-        # tweepy_scraper.add_user(data)
-        db.session.add(test_user)
-        db.session.commit()
+        tweepy_scraper.add_user(data)
 
-        self.assertEqual(test_user, TwitterUser.query.filter_by(user_name='@TestUser').first())
+        test_user = TwitterUser.query.filter_by(user_name="@TestUser").first()
+        self.assertEqual(test_user.user_name, data['user_name'])
+        self.assertEqual(test_user.location, data['location'])
+
+    # def test_add_tweet(self):
+    #     data = {
+    #         "user_name": "@TestlyTestaverde",
+    #         "location": "Testfordshire Abbey",
+    #         "text": "lol this is like totally a tweet and stuff lol",
+    #         "tweet_coordinates": "123.456, 789.000",
+    #         "symbols_in_text": "!@#$%",
+    #         "hashtags": "loltwitter",
+    #         "created_date": datetime.datetime.now(),
+    #     }
+    #
+    #     tweepy_scraper.add_user(data)
+    #     test_user = TwitterUser.query.filter_by(user_name='@TestlyTestaverde').first()
+    #     self.assertIsNone(Tweet.query.filter_by(user_id=test_user.id).first())
+    #
+    #     tweepy_scraper.add_tweet(data)
+    #     Tweet.query.filter_by(user_id=test_user.id).first()
+    #
+    #     db.session.add()
