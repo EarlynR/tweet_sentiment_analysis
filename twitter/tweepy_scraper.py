@@ -3,6 +3,7 @@ from tweepy import StreamListener, Stream
 import settings
 from settings import api
 from app import db
+from app.models import TwitterUser, Tweet
 
 
 class TwitterScraper(StreamListener):
@@ -41,6 +42,16 @@ class TwitterScraper(StreamListener):
             return False
 
 #Start streaming the data.
-stream_listener = StreamListener()
-stream = Stream(auth=api.auth, listener=stream_listener)
-stream.filter(languages=['en'], filter_level=['none'])
+# stream_listener = StreamListener()
+# stream = Stream(auth=api.auth, listener=stream_listener)
+# stream.filter(languages=['en'], filter_level=['none'])
+
+
+def add_user(**kwargs):
+    """
+    Inserts the given data into a table.
+    :param table_name: Name of the table to be updated
+    :param data: Data dictionary of columns/values
+    """
+    user = TwitterUser()
+    db.session.add()
