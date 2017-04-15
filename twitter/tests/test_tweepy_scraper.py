@@ -7,7 +7,7 @@ from twitter import tweepy_scraper
 from app.models import TwitterUser, Tweet
 
 
-class TweepyScraperTest(TestCase):
+class TestTweepyScraper(TestCase):
     def setUp(self):
         app.config['TESTING'] = True
         app.config['WTF_CSRF_ENABLED'] = False
