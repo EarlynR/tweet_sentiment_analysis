@@ -33,5 +33,3 @@ class TestTweepyScraper(TestCase):
         db.session.commit()
 
         self.assertEqual(test_user, TwitterUser.query.filter_by(user_name='@TestUser').first())
-
-
