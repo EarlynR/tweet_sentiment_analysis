@@ -6,14 +6,34 @@ from app import db
 from app.models import TwitterUser, Tweet
 
 
+class CorpusBuilder(StreamListener):
+
+    def on_status(self, status):
+        if status.retweeted:
+            return
+
+        tweet_fields = parse_status(status)
+
+        add_user(tweet_fields)
+        add_tweet(tweet_fields)
+
+    def on_error(self, status_code):
+        if status_code == 420:
+            return False
+
+
 class TwitterScraper(StreamListener):
 
     def on_status(self, status):
         if status.retweeted:
             return
 
-        status_dict = parse_status(status)
-        insert_tweets(status_dict)
+        tweet_fields = parse_status(status)
+
+        get_score(tweet_fields)
+
+        add_user(tweet_fields)
+        add_tweet(tweet_fields)
 
 
     def on_error(self, status_code):
@@ -55,21 +75,20 @@ def parse_status(status):
     return table_fields
 
 
-def insert_tweets(tweet_dictionary):
-    '''
-
-    :param tweet_dictionary:
-    :return: None. Just insert the tweet dictionary into the table
-    '''
-    table = db[settings.table_name]
-    table.insert(tweet_dictionary)
-
 
 
 #Start streaming the data.
 # stream_listener = StreamListener()
 # stream = Stream(auth=api.auth, listener=stream_listener)
 # stream.filter(languages=['en'], filter_level=['none'])
+
+
+def get_score(tweet_fields):
+    pass
+
+
+def parse_status(status):
+    pass
 
 
 def add_user(data):
@@ -83,3 +102,17 @@ def add_user(data):
     db.session.commit()
 
 
+def add_tweet(data):
+    """
+    Adds tweet to Tweets table
+    :param data: tweet_fields from twitter stream listener
+    """
+    tweet = Tweet(
+        body=data['text'],
+        coordinates=data['tweet_coordinates'],
+        symbols=data['symbols_in_text'],
+        hashtags=data['hashtags'],
+        created_date=data['created_date'],
+    )
+    db.session.add(tweet)
+    db.session.commit()
