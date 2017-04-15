@@ -16,5 +16,5 @@ class Tweet(db.Model):
     # TODO: Verify data types for these columns
     coordinates = db.Column(db.String(40))
     symbols = db.Column(db.String(40))
-    hashtags = db.Column(db.string(140))
+    hashtags = db.Column(db.String(140))
     created_date = db.Column(db.DateTime)
