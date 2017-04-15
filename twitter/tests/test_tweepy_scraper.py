@@ -20,14 +20,21 @@ class TestTweepyScraper(TestCase):
         db.drop_all()
 
     def test_add_user(self):
-        test_user = TwitterUser(user_name="@TestUser", location="test_coords")
+        data = {
+            "user_name": "@TestUser",
+            "location": "test_coords"
+        }
 
-        self.assertIsNone(db.session.query(test_user))
+        test_user = TwitterUser(user_name=data['user_name'])
+        print TwitterUser.query.all()
 
+        # tweepy_scraper.add_user(data)
         db.session.add(test_user)
         db.session.commit()
 
-        print db.session.query(test_user)
+        print TwitterUser.query.all()
+        print TwitterUser.query.first().user_name
+
         assert False
 
 
