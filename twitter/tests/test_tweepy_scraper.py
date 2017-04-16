@@ -5,6 +5,7 @@ from app import app, db
 from settings import BASE_DIR
 from twitter import tweepy_scraper
 from app.models import TwitterUser, Tweet
+from mock import Mock
 
 
 class TestTweepyScraper(TestCase):
@@ -33,3 +34,37 @@ class TestTweepyScraper(TestCase):
         db.session.commit()
 
         self.assertEqual(test_user, TwitterUser.query.filter_by(user_name='@TestUser').first())
+
+    def test_parse_status(self):
+        self.maxDiff = None
+        status = Mock(
+            user_name = '@fake_user_name',
+            user_location = 'fake_location',
+            coordinates = 'fake_coordinates',
+            text = 'fake_test',
+            # symbols_in_text = 'fake_symbols_in_fake_text',
+            # hashtags = 'fake_hashtags',
+            created_at = 'fake_created_date',
+            #lead_score = 3,
+        )
+        status.user = Mock(
+            screen_name = '@fake_user_name',
+            location = 'fake_location'
+        )
+
+
+        expected_result = {
+                "user_name": status.user_name,
+                "user_location": status.user_location,
+                "tweet_coordinates": status.coordinates,
+                "text": status.text,
+                # "symbols_in_text": status.symbols_in_text,
+                # "hashtags": status.hashtags,
+                "created_date": status.created_at,
+                # "lead_score": lead_score,
+        }
+
+
+        test_fields = tweepy_scraper.parse_status(status)
+
+        self.assertEqual(test_fields, expected_result)
