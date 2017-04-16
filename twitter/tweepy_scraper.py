@@ -53,20 +53,20 @@ def parse_status(status):
     users_loc = status.user.location
     tweet_coords = status.coordinates
     text = status.text
-    symbols_in_text = list(status.entities.hastags.symbols.text)
-    hashtags_in_text = list(status.entities.hastags.text)
+    # symbols_in_text = list(status.entities.hastags.symbols.text)
+    # hashtags_in_text = list(status.entities.hastags.text)
     created_date = status.created_at
 
     # TODO: Implement get_score
     # lead_score = get_score(text)
 
     table_fields = {
-        "user_name": user_name
+        "user_name": user_name,
         "user_location": users_loc,
         "tweet_coordinates": tweet_coords,
         "text": text,
-        "symbols_in_text": symbols_in_text,
-        "hashtags": hashtags_in_text,
+        # "symbols_in_text": symbols_in_text,
+        # "hashtags": hashtags_in_text,
         "created_date": created_date,
         #"lead_score": lead_score,
     }
@@ -84,10 +84,6 @@ def parse_status(status):
 
 
 def get_score(tweet_fields):
-    pass
-
-
-def parse_status(status):
     pass
 
 
