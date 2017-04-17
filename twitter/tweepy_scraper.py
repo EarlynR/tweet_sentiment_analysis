@@ -80,7 +80,6 @@ def get_score(tweet_fields):
 def add_user(data):
     """
     Inserts the given data into a table.
-    :param table_name: Name of the table to be updated
     :param data: Data dictionary of columns/values
     """
     user = TwitterUser(user_name=data['user_name'], location=data['location'])
@@ -93,7 +92,10 @@ def add_tweet(data):
     Adds tweet to Tweets table
     :param data: tweet_fields from twitter stream listener
     """
+    user_id = TwitterUser.query.filter_by(user_name=data['user_name']).first().id
+
     tweet = Tweet(
+        user_id=user_id,
         body=data['text'],
         coordinates=data['tweet_coordinates'],
         symbols=data['symbols_in_text'],
