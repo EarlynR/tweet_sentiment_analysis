@@ -44,12 +44,12 @@ class TwitterScraper(StreamListener):
 
 
 def parse_status(status):
-    '''
+    """
     Parse through the status and only keep the fields that are relevant to the model.
     This will save hardware space.
     :param status:
     :return: a dictionary of all of the fields that we decided to keep
-    '''
+    """
     user_name = status.author.screen_name
     users_loc = status.author.location
     tweet_coords = status.coordinates
@@ -71,17 +71,7 @@ def parse_status(status):
         "created_date": created_date,
         #"lead_score": lead_score,
     }
-
-
     return table_fields
-
-
-
-
-#Start streaming the data.
-# stream_listener = StreamListener()
-# stream = Stream(auth=api.auth, listener=stream_listener)
-# stream.filter(languages=['en'], filter_level=['none'])
 
 
 def get_score(tweet_fields):
@@ -115,3 +105,9 @@ def add_tweet(data):
     )
     db.session.add(tweet)
     db.session.commit()
+
+
+#Start streaming the data.
+# stream_listener = StreamListener()
+# stream = Stream(auth=api.auth, listener=stream_listener)
+# stream.filter(languages=['en'], filter_level=['none'])
