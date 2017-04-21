@@ -45,6 +45,8 @@ coverage.xml
 *,cover
 .hypothesis/
 test.db
+app.db
+db_repository/
 
 # Translations
 *.mo
@@ -91,3 +93,6 @@ ENV/
 
 # Rope project settings
 .ropeproject
+
+# OS X
+.DS_Store
