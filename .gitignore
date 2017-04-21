@@ -45,6 +45,8 @@ coverage.xml
 *,cover
 .hypothesis/
 test.db
+app.db
+db_repository/
 
 # Translations
 *.mo
