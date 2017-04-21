@@ -44,7 +44,6 @@ nosetests.xml
 coverage.xml
 *,cover
 .hypothesis/
-test.db
 
 # Translations
 *.mo
@@ -91,3 +90,7 @@ ENV/
 
 # Rope project settings
 .ropeproject
+
+#Database
+app.db
+db_repository/

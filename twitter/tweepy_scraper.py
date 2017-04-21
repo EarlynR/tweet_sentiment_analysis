@@ -1,5 +1,5 @@
-from tweepy import StreamListener, Stream
-
+from tweepy.streaming import Stream
+from tweepy.streaming import StreamListener
 import settings
 from settings import api
 from app import db
@@ -13,14 +13,12 @@ class CorpusBuilder(StreamListener):
             return
 
         tweet_fields = parse_status(status)
-
         add_user(tweet_fields)
         add_tweet(tweet_fields)
 
     def on_error(self, status_code):
         if status_code == 420:
             return False
-
 
 class TwitterScraper(StreamListener):
 
@@ -36,11 +34,6 @@ class TwitterScraper(StreamListener):
         add_tweet(tweet_fields)
 
 
-    def on_error(self, status_code):
-        if status_code == 420:
-            #returning False in on_data disconnects the stream
-            return False
-
 
 def parse_status(status):
     """
@@ -49,8 +42,8 @@ def parse_status(status):
     :param status:
     :return: a dictionary of all of the fields that we decided to keep
     """
-    user_name = status.user.screen_name
-    users_loc = status.user.location
+    user_name = status.author.screen_name
+    users_loc = status.author.location
     tweet_coords = status.coordinates
     text = status.text
     # symbols_in_text = list(status.entities.hastags.symbols.text)
@@ -82,7 +75,7 @@ def add_user(data):
     Inserts the given data into a table.
     :param data: Data dictionary of columns/values
     """
-    user = TwitterUser(user_name=data['user_name'], location=data['location'])
+    user = TwitterUser(user_name=data['user_name'], location=data['user_location'])
     db.session.add(user)
     db.session.commit()
 
@@ -98,15 +91,15 @@ def add_tweet(data):
         user_id=user_id,
         body=data['text'],
         coordinates=data['tweet_coordinates'],
-        symbols=data['symbols_in_text'],
-        hashtags=data['hashtags'],
+        # symbols=data['symbols_in_text'],
+        # hashtags=data['hashtags'],
         created_date=data['created_date'],
     )
     db.session.add(tweet)
     db.session.commit()
 
 
-#Start streaming the data.
-# stream_listener = StreamListener()
-# stream = Stream(auth=api.auth, listener=stream_listener)
-# stream.filter(languages=['en'], filter_level=['none'])
+# #Start streaming the data.
+stream_listener = CorpusBuilder()
+stream = Stream(auth=api.auth, listener=stream_listener)
+stream.filter(languages=['en'], track = ['python'], )#filter_level=['none'])
