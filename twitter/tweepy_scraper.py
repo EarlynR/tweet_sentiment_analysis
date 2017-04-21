@@ -35,9 +35,7 @@ class TwitterScraper(StreamListener):
         add_user(tweet_fields)
         add_tweet(tweet_fields)
 
-
     def on_error(self, status_code):
-        print "ERROR"
         if status_code == 420:
             #returning False in on_data disconnects the stream
             return False
